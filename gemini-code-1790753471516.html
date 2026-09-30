@@ -1,1 +1,573 @@
-<!-- index.html -->
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>跨國資安聯合指揮中心 - Cyber Defense Command Center</title>
+  <style>
+    /* ==================== 全局與主題樣式 ==================== */
+    :root {
+      --bg-dark: #0d1117;
+      --bg-sidebar: #161b22;
+      --bg-card: #21262d;
+      --border-color: #30363d;
+      --text-main: #c9d1d9;
+      --text-gold: #f1e05a;
+      --red-accent: #da3633;
+      --green-accent: #238636;
+      --blue-accent: #1f6feb;
+      --purple-accent: #8957e5;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Microsoft JhengHei, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      display: flex;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ==================== 左側導覽列 ==================== */
+    .sidebar {
+      width: 280px;
+      background-color: var(--bg-sidebar);
+      border-right: 1px solid var(--border-color);
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 100;
+    }
+
+    .sidebar-header {
+      padding: 24px 20px;
+      border-bottom: 1px solid var(--border-color);
+      background: linear-gradient(135deg, rgba(218,54,51,0.15), rgba(31,111,235,0.15));
+    }
+
+    .sidebar-header h2 {
+      color: #fff;
+      font-size: 1.2rem;
+      letter-spacing: 1px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .sidebar-header p {
+      font-size: 0.75rem;
+      color: #8b949e;
+      margin-top: 6px;
+    }
+
+    .nav-menu {
+      list-style: none;
+      padding: 15px 0;
+      flex-grow: 1;
+    }
+
+    .nav-item {
+      padding: 14px 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      border-left: 4px solid transparent;
+      color: #8b949e;
+    }
+
+    .nav-item:hover {
+      background-color: rgba(255,255,255,0.05);
+      color: #fff;
+    }
+
+    .nav-item.active {
+      background-color: rgba(31,111,235,0.15);
+      color: #58a6ff;
+      border-left-color: #58a6ff;
+    }
+
+    .sidebar-footer {
+      padding: 15px 20px;
+      border-top: 1px solid var(--border-color);
+      font-size: 0.75rem;
+      color: #8b949e;
+      text-align: center;
+    }
+
+    /* ==================== 右側主要內容區 ==================== */
+    .main-content {
+      margin-left: 280px;
+      flex-grow: 1;
+      padding: 30px;
+      max-width: 1200px;
+    }
+
+    .page-section {
+      display: none;
+      animation: fadeIn 0.4s ease-in-out;
+    }
+
+    .page-section.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    h1.page-title {
+      font-size: 1.8rem;
+      color: #fff;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* ==================== 首頁特色樣式 (三位領導人風格) ==================== */
+    .hero-banner {
+      background: linear-gradient(135deg, #161b22, #21262d);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 25px;
+      margin-bottom: 25px;
+      text-align: center;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    }
+
+    .hero-banner h2 {
+      font-size: 2rem;
+      color: #f0f6fc;
+      margin-bottom: 10px;
+      letter-spacing: 2px;
+    }
+
+    .hero-banner p {
+      color: #8b949e;
+      font-size: 0.95rem;
+    }
+
+    .leaders-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+
+    .leader-card {
+      background: var(--bg-card);
+      border-radius: 8px;
+      padding: 20px;
+      border: 1px solid var(--border-color);
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.3s;
+    }
+
+    .leader-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .leader-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+    }
+
+    .card-kim::before { background-color: var(--red-accent); }
+    .card-xi::before { background-color: var(--text-gold); }
+    .card-lai::before { background-color: var(--blue-accent); }
+
+    .leader-card h3 {
+      font-size: 1.2rem;
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .leader-title {
+      font-size: 0.75rem;
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-weight: normal;
+    }
+
+    .card-kim .leader-title { background: rgba(218,54,51,0.2); color: #ff7b72; }
+    .card-xi .leader-title { background: rgba(241,224,90,0.2); color: #f1e05a; }
+    .card-lai .leader-title { background: rgba(31,111,235,0.2); color: #58a6ff; }
+
+    .quote-box {
+      margin-top: 12px;
+      padding: 12px;
+      background: rgba(0,0,0,0.3);
+      border-left: 3px solid #8b949e;
+      font-style: italic;
+      font-size: 0.9rem;
+      color: #d2a8ff;
+    }
+
+    /* ==================== 通用元件：卡片與按鈕 ==================== */
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .info-card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      padding: 20px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .info-card:hover {
+      border-color: #58a6ff;
+      box-shadow: 0 0 10px rgba(88,166,255,0.2);
+    }
+
+    .info-card h4 {
+      color: #58a6ff;
+      margin-bottom: 10px;
+      font-size: 1.1rem;
+    }
+
+    .info-card p {
+      font-size: 0.9rem;
+      color: #8b949e;
+      line-height: 1.5;
+    }
+
+    .interactive-box {
+      margin-top: 25px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      padding: 20px;
+    }
+
+    .btn {
+      background-color: var(--blue-accent);
+      color: #fff;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: 0.2s;
+    }
+
+    .btn:hover {
+      background-color: #388bfd;
+    }
+
+    /* ==================== 主題專屬互動區 ==================== */
+    .threat-detail {
+      margin-top: 15px;
+      padding: 15px;
+      background: #161b22;
+      border-radius: 4px;
+      display: none;
+    }
+
+    .threat-detail.active {
+      display: block;
+    }
+
+    .checklist-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .checklist-item input {
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 左側選單欄 -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <h2>🛡️ 資安防禦戰情室</h2>
+      <p>Cyber Security Command Center</p>
+    </div>
+    <ul class="nav-menu">
+      <li class="nav-item active" onclick="switchPage('home')">
+        <span>🏠</span> 聯合指揮中心 (首頁)
+      </li>
+      <li class="nav-item" onclick="switchPage('theme1')">
+        <span>⚠️</span> 主題一：資安威脅
+      </li>
+      <li class="nav-item" onclick="switchPage('theme2')">
+        <span>⚙️</span> 主題二：管控模式
+      </li>
+      <li class="nav-item" onclick="switchPage('theme3')">
+        <span>💻</span> 主題三：系統設計安全
+      </li>
+      <li class="nav-item" onclick="switchPage('theme4')">
+        <span>🌐</span> 主題四：資安概論議題
+      </li>
+    </ul>
+    <div class="sidebar-footer">
+      最高防務聯合決策小組 監製
+    </div>
+  </aside>
+
+  <!-- 右側主要內容 display 區 -->
+  <main class="main-content">
+
+    <!-- 首頁：聯合指揮中心 -->
+    <section id="home" class="page-section active">
+      <div class="hero-banner">
+        <h2>跨國資安聯合戰術指揮中心</h2>
+        <p>整合最強防禦力量，建構不可摧毀的全球資訊安全體系</p>
+      </div>
+
+      <div class="leaders-grid">
+        <!-- 金正恩風格 -->
+        <div class="leader-card card-kim">
+          <h3>最高尊嚴戰術區 <span class="leader-title">絕對打擊與重型防禦</span></h3>
+          <p>針對零日漏洞與惡意攻擊，貫徹最堅決的超打擊防禦原則！徹底摧毀任何試圖侵犯系統主權的敵對軟體與惡意封包！</p>
+          <div class="quote-box">
+            「資安就是主權！凡敢入侵系統者，必將面臨全頻段訊號的絕對核平！」
+          </div>
+        </div>
+
+        <!-- 習近平風格 -->
+        <div class="leader-card card-xi">
+          <h3>全球治理總體觀 <span class="leader-title">全方位管控與網絡共同體</span></h3>
+          <p>堅持總體國家安全觀，築牢網絡安全防線。堅持策略面、管理面、技術面三位一體，構建網絡空間命運共同體。</p>
+          <div class="quote-box">
+            「網絡安全為人民，網絡安全靠人民！要精準識別風險，落實全流程管控。」
+          </div>
+        </div>
+
+        <!-- 賴清德風格 -->
+        <div class="leader-card card-lai">
+          <h3>民主科技韌性區 <span class="leader-title">高科技防衛與堅韌應對</span></h3>
+          <p>以科技實力與民主韌性打造不沉的資安島嶼。透過高精密度的系統架構設計與國際合力，守護資料機密性與系統穩定。</p>
+          <div class="quote-box">
+            「用科技守護自由，以韌性防禦威脅！資安即國安，打造全球可信賴的數位防線。」
+          </div>
+        </div>
+      </div>
+
+      <div class="interactive-box">
+        <h3>📊 即時防禦指揮面板</h3>
+        <p style="margin: 10px 0;">目前全球戰情監控狀態：<strong style="color: #238636;">[ 綠色警戒 - 系統運作正常 ]</strong></p>
+        <button class="btn" onclick="triggerAlert()">模擬全區資安警報測試</button>
+      </div>
+    </section>
+
+    <!-- 主題一：使用環境下的資安威脅 -->
+    <section id="theme1" class="page-section">
+      <h1 class="page-title">⚠️ 主題一：使用環境下的資安威脅</h1>
+      <p>點擊下方卡片檢視各項威脅的詳細說明與防範手段：</p>
+
+      <div class="grid-container">
+        <div class="info-card" onclick="toggleThreat('t1')">
+          <h4>🐴 木馬 (Trojan)</h4>
+          <p>偽裝成合法程式，誘導使用者下載後開啟後門。</p>
+        </div>
+        <div class="info-card" onclick="toggleThreat('t2')">
+          <h4>🦠 病毒 (Virus)</h4>
+          <p>具自我複製能力，附著在程式中破壞系統或資料。</p>
+        </div>
+        <div class="info-card" onclick="toggleThreat('t3')">
+          <h4>📧 電子郵件社交工程</h4>
+          <p>利用人性弱點，透過偽造郵件騙取信任與帳密。</p>
+        </div>
+        <div class="info-card" onclick="toggleThreat('t4')">
+          <h4>🎣 網路釣魚 (Phishing)</h4>
+          <p>建立假冒網站，誘騙使用者輸入敏感個資與信用卡號。</p>
+        </div>
+        <div class="info-card" onclick="toggleThreat('t5')">
+          <h4>⚡ 零時差攻擊 (Zero-Day)</h4>
+          <p>在原廠尚未修復漏洞前，發起無預警攻擊。</p>
+        </div>
+        <div class="info-card" onclick="toggleThreat('t6')">
+          <h4>💥 分散式阻斷攻擊 (DDoS)</h4>
+          <p>利用海量流量灌爆伺服器，致使服務癱瘓。</p>
+        </div>
+        <div class="info-card" onclick="toggleThreat('t7')">
+          <h4>🔗 供應鏈攻擊</h4>
+          <p>透過攻擊信任鏈上游的廠商，間接侵入目標機構。</p>
+        </div>
+        <div class="info-card" onclick="toggleThreat('t8')">
+          <h4>🐛 程式漏洞攻擊</h4>
+          <p>利用軟體撰寫上的缺陷，獲取未授權權限。</p>
+        </div>
+      </div>
+
+      <div id="threat-panel" class="interactive-box" style="margin-top: 20px;">
+        <p style="color: #8b949e;">👈 請點擊上方任一威脅卡片以顯示應對策略</p>
+      </div>
+    </section>
+
+    <!-- 主題二：資訊安全管控模式 -->
+    <section id="theme2" class="page-section">
+      <h1 class="page-title">⚙️ 主題二：資訊安全管控模式</h1>
+      <p>資訊安全管控架構三大維度：</p>
+
+      <div class="grid-container">
+        <div class="info-card">
+          <h4 style="color: #ff7b72;">1. 策略面 (Strategy)</h4>
+          <ul style="margin-left: 20px; line-height: 1.8;">
+            <li>資安管理組織架構</li>
+            <li>業務核心目標整合</li>
+            <li>事件處理及營運持續計劃</li>
+          </ul>
+        </div>
+        <div class="info-card">
+          <h4 style="color: #f1e05a;">2. 管理面 (Management)</h4>
+          <ul style="margin-left: 20px; line-height: 1.8;">
+            <li>風險識別與管控機制</li>
+            <li>建立標準程序化流程 (SOP)</li>
+            <li>提升全體人員危機意識</li>
+          </ul>
+        </div>
+        <div class="info-card">
+          <h4 style="color: #58a6ff;">3. 技術面 (Technology)</h4>
+          <ul style="margin-left: 20px; line-height: 1.8;">
+            <li>網路防禦措施 (防火牆/IDS)</li>
+            <li>身分驗證與存取控制 (MFA)</li>
+            <li>資料保護與備份措施</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 主題三：系統設計的安全議題 -->
+    <section id="theme3" class="page-section">
+      <h1 class="page-title">💻 主題三：系統設計的安全議題</h1>
+      <p>Why Consider Security in Program Development?（開發安全檢核清單）：</p>
+
+      <div class="interactive-box">
+        <div class="checklist-item"><input type="checkbox" id="c1"><label for="c1"><strong>Communication Security</strong> - 通訊安全傳輸 (HTTPS/TLS)</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c2"><label for="c2"><strong>Access Control</strong> - 嚴格的存取控制與最小權限原則</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c3"><label for="c3"><strong>Information Confidentiality</strong> - 機密資訊防護與遮蔽</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c4"><label for="c4"><strong>Authenticity & Accountability</strong> - 真實性驗證與明確可問責性</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c5"><label for="c5"><strong>Non-repudiation</strong> - 電子簽章與不可否認機制</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c6"><label for="c6"><strong>Audit Trail</strong> - 完善的系統操作紀錄與稽核軌跡</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c7"><label for="c7"><strong>Business Continuity</strong> - 高可用性與業務持續性架構</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c8"><label for="c8"><strong>Encryption</strong> - 敏感資料靜態與動態加密</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c9"><label for="c9"><strong>Against Attack</strong> - 抗攻擊性 (如 SQLi / XSS 防禦)</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c10"><label for="c10"><strong>Compliance</strong> - 符合資安法規與標準</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c11"><label for="c11"><strong>Backup</strong> - 定期備份與異地備援機制</label></div>
+
+        <button class="btn" style="margin-top: 20px;" onclick="checkSystemStatus()">計算系統安全等級</button>
+        <p id="score-result" style="margin-top: 10px; font-weight: bold;"></p>
+      </div>
+    </section>
+
+    <!-- 主題四：資訊安全概論 -->
+    <section id="theme4" class="page-section">
+      <h1 class="page-title">🌐 主題四：資訊安全概論議題</h1>
+      <p>你在意與可能面臨的資訊安全實體及數位議題：</p>
+
+      <div class="grid-container">
+        <div class="info-card"><h4>⚡ 停電</h4><p>應對措施：不斷電系統 (UPS) 與備用發電機。</p></div>
+        <div class="info-card"><h4>🔐 失竊</h4><p>應對措施：門禁管制、實體機房鎖定與硬體加密。</p></div>
+        <div class="info-card"><h4>🔥 火災</h4><p>應對措施：氣體滅火系統與異地備援資料備份。</p></div>
+        <div class="info-card"><h4>🐛 軟體錯誤</h4><p>應對措施：單元測試、Code Review 與持續整合 (CI/CD)。</p></div>
+        <div class="info-card"><h4>🔓 資料外洩</h4><p>應對措施：DLP 資料外禦系統與欄位級加密。</p></div>
+        <div class="info-card"><h4>🛡️ 系統漏洞</h4><p>應對措施：定期弱點掃描與修補程式更新 (Patching)。</p></div>
+        <div class="info-card"><h4>⚔️ 駭客攻擊</h4><p>應對措施：建置 SOC 監控中心與入侵防禦系統 (IPS)。</p></div>
+        <div class="info-card"><h4>📡 網路中斷</h4><p>應對措施：多電信業者備援線路 (ISP Redundancy)。</p></div>
+        <div class="info-card"><h4>🚨 網站異常</h4><p>應對措施：自動化 Health Check 與 CDN 流量分流。</p></div>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    // 頁面切換邏輯
+    function switchPage(pageId) {
+      document.querySelectorAll('.page-section').forEach(sec => {
+        sec.classList.remove('active');
+      });
+      document.querySelectorAll('.nav-item').forEach(item => {
+        item.classList.remove('active');
+      });
+
+      document.getElementById(pageId).classList.add('active');
+      event.currentTarget.classList.add('active');
+    }
+
+    // 首頁警報測試
+    function triggerAlert() {
+      alert("🚨【最高戰術警報】檢測到異常網路封包掃描！\n聯合指揮中心已啟動防禦矩陣，防護等級升至第一級！");
+    }
+
+    // 主題一：威脅細節切換
+    const threatDetails = {
+      t1: { title: "木馬 (Trojan)", desc: "防範建議：切勿開啟來源不明的執行檔，並配置端點防護 (EDR) 軟體。" },
+      t2: { title: "病毒 (Virus)", desc: "防範建議：保持作業系統更新，並啟用即時防毒掃描。" },
+      t3: { title: "電子郵件社交工程", desc: "防範建議：仔細核對寄件者 Address，不隨意點擊社交工程信件連結。" },
+      t4: { title: "網路釣魚 (Phishing)", desc: "防範建議：確認網址列是否具備安全憑證 (HTTPS)，並啟用雙重驗證 (2FA)。" },
+      t5: { title: "零時差攻擊 (Zero-Day)", desc: "防範建議：採用縱深防禦機制，強化縱向與橫向沙盒隔離測試。" },
+      t6: { title: "DDoS 攻擊", desc: "防範建議：導入流量清洗服務 (CDN / DDoS Scrubbing Center)。" },
+      t7: { title: "供應鏈攻擊", desc: "防範建議：稽核第三方供應商的安全資質，執行嚴格的套件相依性檢查。" },
+      t8: { title: "程式漏洞攻擊", desc: "防範建議：導入靜態/動態程式碼安全分析 (SAST/DAST)。" }
+    };
+
+    function toggleThreat(key) {
+      const panel = document.getElementById('threat-panel');
+      const data = threatDetails[key];
+      panel.innerHTML = `
+        <h3 style="color: #ff7b72;">🔍 ${data.title} - 應對指南</h3>
+        <p style="margin-top: 10px; line-height: 1.6;">${data.desc}</p>
+      `;
+    }
+
+    // 主題三：安全等級計算
+    function checkSystemStatus() {
+      const total = 11;
+      let checked = 0;
+      for (let i = 1; i <= total; i++) {
+        if (document.getElementById('c' + i).checked) checked++;
+      }
+      const percent = Math.round((checked / total) * 100);
+      const resultEl = document.getElementById('score-result');
+      
+      if (percent === 100) {
+        resultEl.style.color = "#238636";
+        resultEl.innerText = `🛡️ 防禦得分：${percent}% - 金正恩與習近平同聲讚賞：達到絕對安全堡壘標準！`;
+      } else if (percent >= 60) {
+        resultEl.style.color = "#f1e05a";
+        resultEl.innerText = `⚠️ 防禦得分：${percent}% - 賴清德提醒：具備基本防務，但仍需補強剩餘 ${total - checked} 項指標以展現民主韌性。`;
+      } else {
+        resultEl.style.color = "#da3633";
+        resultEl.innerText = `🚨 防禦得分：${percent}% - 戰情中心警告：系統漏洞百出，極易遭受破壞！`;
+      }
+    }
+  </script>
+</body>
+</html>
