@@ -3,20 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>跨國資安聯合指揮中心 - Cyber Defense Command Center</title>
+  <title>最高資安戰術指揮中心 - Cyber Security Command</title>
   <style>
-    /* ==================== 全局與主題樣式 ==================== */
     :root {
-      --bg-dark: #0d1117;
-      --bg-sidebar: #161b22;
-      --bg-card: #21262d;
-      --border-color: #30363d;
-      --text-main: #c9d1d9;
-      --text-gold: #f1e05a;
-      --red-accent: #da3633;
-      --green-accent: #238636;
-      --blue-accent: #1f6feb;
-      --purple-accent: #8957e5;
+      --bg-dark: #0a0d12;
+      --bg-sidebar: #121721;
+      --bg-card: #1c2331;
+      --border-color: #2e384d;
+      --text-main: #d1d5db;
+      --red-accent: #e53935;
+      --gold-accent: #ffb300;
+      --blue-accent: #1e88e5;
+      --green-accent: #43a047;
     }
 
     * {
@@ -31,10 +29,9 @@
       color: var(--text-main);
       display: flex;
       min-height: 100vh;
-      overflow-x: hidden;
     }
 
-    /* ==================== 左側導覽列 ==================== */
+    /* 側邊導覽列 */
     .sidebar {
       width: 280px;
       background-color: var(--bg-sidebar);
@@ -42,31 +39,20 @@
       display: flex;
       flex-direction: column;
       position: fixed;
-      top: 0;
-      bottom: 0;
-      left: 0;
+      top: 0; bottom: 0; left: 0;
       z-index: 100;
     }
 
     .sidebar-header {
-      padding: 24px 20px;
+      padding: 20px;
       border-bottom: 1px solid var(--border-color);
-      background: linear-gradient(135deg, rgba(218,54,51,0.15), rgba(31,111,235,0.15));
+      background: linear-gradient(135deg, rgba(229,57,53,0.2), rgba(30,136,229,0.1));
     }
 
     .sidebar-header h2 {
       color: #fff;
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       letter-spacing: 1px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .sidebar-header p {
-      font-size: 0.75rem;
-      color: #8b949e;
-      margin-top: 6px;
     }
 
     .nav-menu {
@@ -80,33 +66,23 @@
       cursor: pointer;
       display: flex;
       align-items: center;
-      gap: 12px;
-      font-weight: 500;
-      transition: all 0.3s ease;
+      gap: 10px;
+      color: #9ca3af;
+      transition: all 0.2s;
       border-left: 4px solid transparent;
-      color: #8b949e;
     }
 
-    .nav-item:hover {
+    .nav-item:hover, .nav-item.active {
       background-color: rgba(255,255,255,0.05);
       color: #fff;
     }
 
     .nav-item.active {
-      background-color: rgba(31,111,235,0.15);
-      color: #58a6ff;
-      border-left-color: #58a6ff;
+      border-left-color: var(--red-accent);
+      color: #ff8a80;
     }
 
-    .sidebar-footer {
-      padding: 15px 20px;
-      border-top: 1px solid var(--border-color);
-      font-size: 0.75rem;
-      color: #8b949e;
-      text-align: center;
-    }
-
-    /* ==================== 右側主要內容區 ==================== */
+    /* 主要內容區 */
     .main-content {
       margin-left: 280px;
       flex-grow: 1;
@@ -116,7 +92,7 @@
 
     .page-section {
       display: none;
-      animation: fadeIn 0.4s ease-in-out;
+      animation: fadeIn 0.3s ease;
     }
 
     .page-section.active {
@@ -124,450 +100,462 @@
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
+      from { opacity: 0; transform: translateY(8px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
-    h1.page-title {
-      font-size: 1.8rem;
-      color: #fff;
-      margin-bottom: 20px;
-      padding-bottom: 10px;
-      border-bottom: 2px solid var(--border-color);
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    /* ==================== 首頁特色樣式 (三位領導人風格) ==================== */
-    .hero-banner {
-      background: linear-gradient(135deg, #161b22, #21262d);
-      border: 1px solid var(--border-color);
-      border-radius: 8px;
-      padding: 25px;
-      margin-bottom: 25px;
-      text-align: center;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.5);
-    }
-
-    .hero-banner h2 {
-      font-size: 2rem;
-      color: #f0f6fc;
-      margin-bottom: 10px;
-      letter-spacing: 2px;
-    }
-
-    .hero-banner p {
-      color: #8b949e;
-      font-size: 0.95rem;
-    }
-
-    .leaders-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 20px;
-      margin-bottom: 30px;
-    }
-
-    .leader-card {
-      background: var(--bg-card);
-      border-radius: 8px;
-      padding: 20px;
-      border: 1px solid var(--border-color);
+    /* 首頁元首滿版區 */
+    .leader-hero {
       position: relative;
-      overflow: hidden;
-      transition: transform 0.3s;
-    }
-
-    .leader-card:hover {
-      transform: translateY(-5px);
-    }
-
-    .leader-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 4px;
-    }
-
-    .card-kim::before { background-color: var(--red-accent); }
-    .card-xi::before { background-color: var(--text-gold); }
-    .card-lai::before { background-color: var(--blue-accent); }
-
-    .leader-card h3 {
-      font-size: 1.2rem;
-      margin-bottom: 8px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .leader-title {
-      font-size: 0.75rem;
-      padding: 2px 8px;
       border-radius: 12px;
-      font-weight: normal;
+      overflow: hidden;
+      border: 2px solid var(--red-accent);
+      box-shadow: 0 0 25px rgba(229,57,53,0.3);
+      margin-bottom: 30px;
+      min-height: 480px;
+      background: #000;
     }
 
-    .card-kim .leader-title { background: rgba(218,54,51,0.2); color: #ff7b72; }
-    .card-xi .leader-title { background: rgba(241,224,90,0.2); color: #f1e05a; }
-    .card-lai .leader-title { background: rgba(31,111,235,0.2); color: #58a6ff; }
-
-    .quote-box {
-      margin-top: 12px;
-      padding: 12px;
-      background: rgba(0,0,0,0.3);
-      border-left: 3px solid #8b949e;
-      font-style: italic;
-      font-size: 0.9rem;
-      color: #d2a8ff;
-    }
-
-    /* ==================== 通用元件：卡片與按鈕 ==================== */
-    .grid-container {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 20px;
-      margin-top: 20px;
-    }
-
-    .info-card {
-      background-color: var(--bg-card);
-      border: 1px solid var(--border-color);
-      border-radius: 6px;
-      padding: 20px;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .info-card:hover {
-      border-color: #58a6ff;
-      box-shadow: 0 0 10px rgba(88,166,255,0.2);
-    }
-
-    .info-card h4 {
-      color: #58a6ff;
-      margin-bottom: 10px;
-      font-size: 1.1rem;
-    }
-
-    .info-card p {
-      font-size: 0.9rem;
-      color: #8b949e;
-      line-height: 1.5;
-    }
-
-    .interactive-box {
-      margin-top: 25px;
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      border-radius: 6px;
-      padding: 20px;
-    }
-
-    .btn {
-      background-color: var(--blue-accent);
-      color: #fff;
-      border: none;
-      padding: 8px 16px;
-      border-radius: 4px;
-      cursor: pointer;
-      font-weight: 600;
-      transition: 0.2s;
-    }
-
-    .btn:hover {
-      background-color: #388bfd;
-    }
-
-    /* ==================== 主題專屬互動區 ==================== */
-    .threat-detail {
-      margin-top: 15px;
-      padding: 15px;
-      background: #161b22;
-      border-radius: 4px;
-      display: none;
-    }
-
-    .threat-detail.active {
+    .leader-hero img {
+      width: 100%;
+      height: 480px;
+      object-fit: cover;
+      object-position: top center;
+      filter: brightness(0.85) contrast(1.1);
       display: block;
     }
 
-    .checklist-item {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 10px;
-      border-bottom: 1px solid var(--border-color);
+    .leader-overlay {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      background: linear-gradient(to top, rgba(10,13,18,0.95), rgba(10,13,18,0.6) 70%, transparent);
+      padding: 30px;
+      color: #fff;
     }
 
-    .checklist-item input {
-      width: 18px;
-      height: 18px;
-      cursor: pointer;
+    .leader-overlay h1 {
+      font-size: 2.2rem;
+      color: #ff8a80;
+      margin-bottom: 8px;
+      text-shadow: 0 0 10px rgba(229,57,53,0.5);
     }
+
+    .leader-overlay p {
+      font-size: 1.05rem;
+      color: #e0e0e0;
+      max-width: 800px;
+      line-height: 1.6;
+    }
+
+    .quote-banner {
+      background: rgba(229,57,53,0.15);
+      border-left: 4px solid var(--red-accent);
+      padding: 12px 20px;
+      margin-top: 15px;
+      font-style: italic;
+      color: #ffcdd2;
+    }
+
+    /* 三大元首分工卡片 */
+    .tri-leaders {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      margin-top: 25px;
+    }
+
+    .leader-subcard {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 20px;
+    }
+
+    .leader-subcard h3 {
+      font-size: 1.1rem;
+      margin-bottom: 10px;
+    }
+
+    /* 可互動展開式面板 (Accordion) */
+    .accordion-item {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      margin-bottom: 12px;
+      overflow: hidden;
+      transition: border-color 0.2s;
+    }
+
+    .accordion-item:hover {
+      border-color: var(--blue-accent);
+    }
+
+    .accordion-header {
+      padding: 16px 20px;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 600;
+      color: #fff;
+      background: rgba(255,255,255,0.02);
+    }
+
+    .accordion-header .icon {
+      transition: transform 0.3s;
+      color: var(--blue-accent);
+    }
+
+    .accordion-item.active .accordion-header .icon {
+      transform: rotate(180deg);
+    }
+
+    .accordion-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease-out;
+      background: rgba(0,0,0,0.2);
+    }
+
+    .accordion-body {
+      padding: 20px;
+      border-top: 1px solid var(--border-color);
+      line-height: 1.7;
+      font-size: 0.95rem;
+    }
+
+    .analysis-tag {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+
+    .tag-meaning { background: rgba(30,136,229,0.2); color: #64b5f6; }
+    .tag-situation { background: rgba(229,57,53,0.2); color: #ef5350; }
   </style>
 </head>
 <body>
 
-  <!-- 左側選單欄 -->
   <aside class="sidebar">
     <div class="sidebar-header">
-      <h2>🛡️ 資安防禦戰情室</h2>
-      <p>Cyber Security Command Center</p>
+      <h2>🛡️ 最高資安戰術指揮中心</h2>
     </div>
     <ul class="nav-menu">
-      <li class="nav-item active" onclick="switchPage('home')">
-        <span>🏠</span> 聯合指揮中心 (首頁)
-      </li>
-      <li class="nav-item" onclick="switchPage('theme1')">
-        <span>⚠️</span> 主題一：資安威脅
-      </li>
-      <li class="nav-item" onclick="switchPage('theme2')">
-        <span>⚙️</span> 主題二：管控模式
-      </li>
-      <li class="nav-item" onclick="switchPage('theme3')">
-        <span>💻</span> 主題三：系統設計安全
-      </li>
-      <li class="nav-item" onclick="switchPage('theme4')">
-        <span>🌐</span> 主題四：資安概論議題
-      </li>
+      <li class="nav-item active" onclick="switchPage('home')">🏠 元首戰情首頁</li>
+      <li class="nav-item" onclick="switchPage('theme1')">⚠️ 主題一：資安威脅</li>
+      <li class="nav-item" onclick="switchPage('theme2')">⚙️ 主題二：管控模式</li>
+      <li class="nav-item" onclick="switchPage('theme3')">💻 主題三：系統設計安全</li>
+      <li class="nav-item" onclick="switchPage('theme4')">🌐 主題四：資安概論議題</li>
     </ul>
-    <div class="sidebar-footer">
-      最高防務聯合決策小組 監製
-    </div>
   </aside>
 
-  <!-- 右側主要內容 display 區 -->
   <main class="main-content">
 
-    <!-- 首頁：聯合指揮中心 -->
+    <!-- 首頁：滿版元首大頭照 -->
     <section id="home" class="page-section active">
-      <div class="hero-banner">
-        <h2>跨國資安聯合戰術指揮中心</h2>
-        <p>整合最強防禦力量，建構不可摧毀的全球資訊安全體系</p>
-      </div>
-
-      <div class="leaders-grid">
-        <!-- 金正恩風格 -->
-        <div class="leader-card card-kim">
-          <h3>最高尊嚴戰術區 <span class="leader-title">絕對打擊與重型防禦</span></h3>
-          <p>針對零日漏洞與惡意攻擊，貫徹最堅決的超打擊防禦原則！徹底摧毀任何試圖侵犯系統主權的敵對軟體與惡意封包！</p>
-          <div class="quote-box">
-            「資安就是主權！凡敢入侵系統者，必將面臨全頻段訊號的絕對核平！」
-          </div>
-        </div>
-
-        <!-- 習近平風格 -->
-        <div class="leader-card card-xi">
-          <h3>全球治理總體觀 <span class="leader-title">全方位管控與網絡共同體</span></h3>
-          <p>堅持總體國家安全觀，築牢網絡安全防線。堅持策略面、管理面、技術面三位一體，構建網絡空間命運共同體。</p>
-          <div class="quote-box">
-            「網絡安全為人民，網絡安全靠人民！要精準識別風險，落實全流程管控。」
-          </div>
-        </div>
-
-        <!-- 賴清德風格 -->
-        <div class="leader-card card-lai">
-          <h3>民主科技韌性區 <span class="leader-title">高科技防衛與堅韌應對</span></h3>
-          <p>以科技實力與民主韌性打造不沉的資安島嶼。透過高精密度的系統架構設計與國際合力，守護資料機密性與系統穩定。</p>
-          <div class="quote-box">
-            「用科技守護自由，以韌性防禦威脅！資安即國安，打造全球可信賴的數位防線。」
+      <div class="leader-hero">
+        <img src="watermarked_img_601796863094992596.jpg" alt="最高元首金正恩資安戰術指示">
+        <div class="leader-overlay">
+          <h1>最高指導元首戰術指揮中心</h1>
+          <p>「網路主權即國家存亡！對一切敵對勢力之惡意封包與網路侵犯，實施全頻段絕對防守與即時打擊！」</p>
+          <div class="quote-box quote-banner">
+            最高元首金正恩親自督導：建構不可摧毀之網路防線，徹底打擊零日攻擊與外來威脅！
           </div>
         </div>
       </div>
 
-      <div class="interactive-box">
-        <h3>📊 即時防禦指揮面板</h3>
-        <p style="margin: 10px 0;">目前全球戰情監控狀態：<strong style="color: #238636;">[ 綠色警戒 - 系統運作正常 ]</strong></p>
-        <button class="btn" onclick="triggerAlert()">模擬全區資安警報測試</button>
+      <div class="tri-leaders">
+        <div class="leader-subcard" style="border-top: 3px solid var(--red-accent);">
+          <h3 style="color: #ef5350;">🚩 最高尊嚴防衛區（金正恩）</h3>
+          <p>強調絕對主權掌控與硬核打擊能力，對惡意木馬與 DDoS 採取零容忍即時阻衛。</p>
+        </div>
+        <div class="leader-subcard" style="border-top: 3px solid var(--gold-accent);">
+          <h3 style="color: #ffca28;">🏛️ 全面管控體系（習近平）</h3>
+          <p>貫徹總體國家安全觀，以策略、管理、技術三位一體織密全方位防禦網。</p>
+        </div>
+        <div class="leader-subcard" style="border-top: 3px solid var(--blue-accent);">
+          <h3 style="color: #42a5f5;">🌐 民主高科技韌性（賴清德）</h3>
+          <p>運用精密軟體開發安全（Secure SDLC）與民主防禦韌性，建構國際可信賴資安生態。</p>
+        </div>
       </div>
     </section>
 
     <!-- 主題一：使用環境下的資安威脅 -->
     <section id="theme1" class="page-section">
-      <h1 class="page-title">⚠️ 主題一：使用環境下的資安威脅</h1>
-      <p>點擊下方卡片檢視各項威脅的詳細說明與防範手段：</p>
+      <h1 style="color: #fff; margin-bottom: 10px;">⚠️ 主題一：使用環境下的資安威脅</h1>
+      <p style="color: #8b949e; margin-bottom: 20px;">點擊項目展開深度涵義與情境狀況分析：</p>
 
-      <div class="grid-container">
-        <div class="info-card" onclick="toggleThreat('t1')">
-          <h4>🐴 木馬 (Trojan)</h4>
-          <p>偽裝成合法程式，誘導使用者下載後開啟後門。</p>
+      <div class="accordion-item">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          <span>🐴 1. 木馬 (Trojan)</span><span class="icon">▼</span>
         </div>
-        <div class="info-card" onclick="toggleThreat('t2')">
-          <h4>🦠 病毒 (Virus)</h4>
-          <p>具自我複製能力，附著在程式中破壞系統或資料。</p>
-        </div>
-        <div class="info-card" onclick="toggleThreat('t3')">
-          <h4>📧 電子郵件社交工程</h4>
-          <p>利用人性弱點，透過偽造郵件騙取信任與帳密。</p>
-        </div>
-        <div class="info-card" onclick="toggleThreat('t4')">
-          <h4>🎣 網路釣魚 (Phishing)</h4>
-          <p>建立假冒網站，誘騙使用者輸入敏感個資與信用卡號。</p>
-        </div>
-        <div class="info-card" onclick="toggleThreat('t5')">
-          <h4>⚡ 零時差攻擊 (Zero-Day)</h4>
-          <p>在原廠尚未修復漏洞前，發起無預警攻擊。</p>
-        </div>
-        <div class="info-card" onclick="toggleThreat('t6')">
-          <h4>💥 分散式阻斷攻擊 (DDoS)</h4>
-          <p>利用海量流量灌爆伺服器，致使服務癱瘓。</p>
-        </div>
-        <div class="info-card" onclick="toggleThreat('t7')">
-          <h4>🔗 供應鏈攻擊</h4>
-          <p>透過攻擊信任鏈上游的廠商，間接侵入目標機構。</p>
-        </div>
-        <div class="info-card" onclick="toggleThreat('t8')">
-          <h4>🐛 程式漏洞攻擊</h4>
-          <p>利用軟體撰寫上的缺陷，獲取未授權權限。</p>
+        <div class="accordion-content">
+          <div class="accordion-body">
+            <span class="analysis-tag tag-meaning">涵義解析</span>
+            <p>偽裝成無害或有用的合法軟體，誘騙使用者執行，暗中開立後門供攻擊者控制系統。</p><br>
+            <span class="analysis-tag tag-situation">可能狀況與情境</span>
+            <p>員工下載了標榜「免費 PDF 轉檔工具」，安裝後電腦被植入遠端控制後門（RAT），導致內網全部主機遭遠端監控與資料竊取。</p>
+          </div>
         </div>
       </div>
 
-      <div id="threat-panel" class="interactive-box" style="margin-top: 20px;">
-        <p style="color: #8b949e;">👈 請點擊上方任一威脅卡片以顯示應對策略</p>
+      <div class="accordion-item">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          <span>🦠 2. 病毒 (Virus)</span><span class="icon">▼</span>
+        </div>
+        <div class="accordion-content">
+          <div class="accordion-body">
+            <span class="analysis-tag tag-meaning">涵義解析</span>
+            <p>具有自我複製能力的惡意程式碼，需依附於特定檔案或載體上，透過執行進行感染與破壞。</p><br>
+            <span class="analysis-tag tag-situation">可能狀況與情境</span>
+            <p>隨身碟插到感染主機後，內部 Word 文件自動附加惡意巨集，再經由郵件擴散至全公司，造成大量檔案損毀或加密勒索。</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          <span>📧 3. 電子郵件社交工程</span><span class="icon">▼</span>
+        </div>
+        <div class="accordion-content">
+          <div class="accordion-body">
+            <span class="analysis-tag tag-meaning">涵義解析</span>
+            <p>利用心理學原理與人性弱點，透過精心設計的詐騙信件誘使受害者提供敏感資料或執行惡意動作。</p><br>
+            <span class="analysis-tag tag-situation">可能狀況與情境</span>
+            <p>財務人員收到偽裝成「高層執行長緊急匯款指示」的郵件，因未經過二次確認而直接轉帳巨額款項至境外詐騙帳戶。</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          <span>🎣 4. 網路釣魚 (Phishing)</span><span class="icon">▼</span>
+        </div>
+        <div class="accordion-content">
+          <div class="accordion-body">
+            <span class="analysis-tag tag-meaning">涵義解析</span>
+            <p>建置高仿度的假冒登入介面，騙取使用者的帳號密碼、信用卡號或 OTP 驗證碼。</p><br>
+            <span class="analysis-tag tag-situation">可能狀況與情境</span>
+            <p>收到「銀行帳戶安全性異常，請立即驗證」簡訊，使用者點擊網址並輸入密碼後，信用卡立即遭盜刷。</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          <span>⚡ 5. 零時差攻擊 (Zero-Day Attack)</span><span class="icon">▼</span>
+        </div>
+        <div class="accordion-content">
+          <div class="accordion-body">
+            <span class="analysis-tag tag-meaning">涵義解析</span>
+            <p>針對軟體開發者尚未發現或尚未發布修補程式（Patch）的未知漏洞所發起的攻擊。</p><br>
+            <span class="analysis-tag tag-situation">可能狀況與情境</span>
+            <p>國家級駭客利用最新的瀏覽器零日漏洞，使用者只要瀏覽特定網站，無需下載任何檔案即遭自動植入間諜軟體。</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          <span>💥 6. 分散式阻斷攻擊 (DDoS)</span><span class="icon">▼</span>
+        </div>
+        <div class="accordion-content">
+          <div class="accordion-body">
+            <span class="analysis-tag tag-meaning">涵義解析</span>
+            <p>操控由無數受害者電腦組成的殭屍網路（Botnet），發送海量無效請求癱瘓目標伺服器。</p><br>
+            <span class="analysis-tag tag-situation">可能狀況與情境</span>
+            <p>電商平台在雙 11 活動期間遭多達 1 Tbps 的流量衝擊，伺服器記憶體溢位關機，造成數百萬營業額損失。</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          <span>🔗 7. 供應鏈攻擊 (Supply Chain Attack)</span><span class="icon">▼</span>
+        </div>
+        <div class="accordion-content">
+          <div class="accordion-body">
+            <span class="analysis-tag tag-meaning">涵義解析</span>
+            <p>不直接攻擊防禦嚴密的目標，而是先入侵其信任的第三方服務商或軟體更新伺服器。</p><br>
+            <span class="analysis-tag tag-situation">可能狀況與情境</span>
+            <p>軟體供應商的更新包被注入惡意程式，導致全球數千家企業在例行更新軟體時集體染毒。</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          <span>🐛 8. 程式漏洞攻擊</span><span class="icon">▼</span>
+        </div>
+        <div class="accordion-content">
+          <div class="accordion-body">
+            <span class="analysis-tag tag-meaning">涵義解析</span>
+            <p>利用軟體在設計或撰寫過程中的邏輯漏洞（如 SQL Injection、Buffer Overflow）存取未授權資料。</p><br>
+            <span class="analysis-tag tag-situation">可能狀況與情境</span>
+            <p>駭客在搜尋框輸入 `' OR '1'='1` 語法，繞過驗證機制直接取得資料庫管理員最高權限並導出千萬筆個資。</p>
+          </div>
+        </div>
       </div>
     </section>
 
     <!-- 主題二：資訊安全管控模式 -->
     <section id="theme2" class="page-section">
-      <h1 class="page-title">⚙️ 主題二：資訊安全管控模式</h1>
-      <p>資訊安全管控架構三大維度：</p>
+      <h1 style="color: #fff; margin-bottom: 10px;">⚙️ 主題二：資訊安全管控模式</h1>
+      <p style="color: #8b949e; margin-bottom: 20px;">點擊展開三大面向的深化解析：</p>
 
-      <div class="grid-container">
-        <div class="info-card">
-          <h4 style="color: #ff7b72;">1. 策略面 (Strategy)</h4>
-          <ul style="margin-left: 20px; line-height: 1.8;">
-            <li>資安管理組織架構</li>
-            <li>業務核心目標整合</li>
-            <li>事件處理及營運持續計劃</li>
-          </ul>
+      <div class="accordion-item">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          <span>📊 1. 策略面 (Strategy Level)</span><span class="icon">▼</span>
         </div>
-        <div class="info-card">
-          <h4 style="color: #f1e05a;">2. 管理面 (Management)</h4>
-          <ul style="margin-left: 20px; line-height: 1.8;">
-            <li>風險識別與管控機制</li>
-            <li>建立標準程序化流程 (SOP)</li>
-            <li>提升全體人員危機意識</li>
-          </ul>
+        <div class="accordion-content">
+          <div class="accordion-body">
+            <span class="analysis-tag tag-meaning">涵義解析</span>
+            <p>由組織最高層級制定資安願景，將資安納入企業核心營運目標與法律合規框架。</p><br>
+            <span class="analysis-tag tag-situation">可能狀況分析</span>
+            <p>若缺乏策略面，資安部門常被視為「燒錢單位」，導致缺乏預算與高層支持，在面臨資安危機時無法有效啟動業務持續計畫 (BCP)。</p>
+          </div>
         </div>
-        <div class="info-card">
-          <h4 style="color: #58a6ff;">3. 技術面 (Technology)</h4>
-          <ul style="margin-left: 20px; line-height: 1.8;">
-            <li>網路防禦措施 (防火牆/IDS)</li>
-            <li>身分驗證與存取控制 (MFA)</li>
-            <li>資料保護與備份措施</li>
-          </ul>
+      </div>
+
+      <div class="accordion-item">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          <span>📋 2. 管理面 (Management Level)</span><span class="icon">▼</span>
+        </div>
+        <div class="accordion-content">
+          <div class="accordion-body">
+            <span class="analysis-tag tag-meaning">涵義解析</span>
+            <p>透過日常程序化流程 (SOP)、風險評估機制與人員教育訓練，將資安要求落實於組織內部。</p><br>
+            <span class="analysis-tag tag-situation">可能狀況分析</span>
+            <p>雖然買了昂貴防火牆，但因為離職人員帳號未即時停用，導致前員工仍可隨時登入公司系統下載內部核心機密。</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+          <span>🛡️ 3. 技術面 (Technology Level)</span><span class="icon">▼</span>
+        </div>
+        <div class="accordion-content">
+          <div class="accordion-body">
+            <span class="analysis-tag tag-meaning">涵義解析</span>
+            <p>部署實體與數位科技防禦工具，包含防火牆、入侵偵測系統 (IDS)、MFA 多因素驗證與資料加密機制。</p><br>
+            <span class="analysis-tag tag-situation">可能狀況分析</span>
+            <p>當駭客繞過外部邊界時，內部若無實施技術面微分割與加密保護，資料庫將直接被「一鍋端」。</p>
+          </div>
         </div>
       </div>
     </section>
 
     <!-- 主題三：系統設計的安全議題 -->
     <section id="theme3" class="page-section">
-      <h1 class="page-title">💻 主題三：系統設計的安全議題</h1>
-      <p>Why Consider Security in Program Development?（開發安全檢核清單）：</p>
+      <h1 style="color: #fff; margin-bottom: 10px;">💻 主題三：系統設計的安全議題</h1>
+      <p style="color: #8b949e; margin-bottom: 20px;">Why Consider Security in Program Development（點擊檢視 11 大要素與情境分析）：</p>
 
-      <div class="interactive-box">
-        <div class="checklist-item"><input type="checkbox" id="c1"><label for="c1"><strong>Communication Security</strong> - 通訊安全傳輸 (HTTPS/TLS)</label></div>
-        <div class="checklist-item"><input type="checkbox" id="c2"><label for="c2"><strong>Access Control</strong> - 嚴格的存取控制與最小權限原則</label></div>
-        <div class="checklist-item"><input type="checkbox" id="c3"><label for="c3"><strong>Information Confidentiality</strong> - 機密資訊防護與遮蔽</label></div>
-        <div class="checklist-item"><input type="checkbox" id="c4"><label for="c4"><strong>Authenticity & Accountability</strong> - 真實性驗證與明確可問責性</label></div>
-        <div class="checklist-item"><input type="checkbox" id="c5"><label for="c5"><strong>Non-repudiation</strong> - 電子簽章與不可否認機制</label></div>
-        <div class="checklist-item"><input type="checkbox" id="c6"><label for="c6"><strong>Audit Trail</strong> - 完善的系統操作紀錄與稽核軌跡</label></div>
-        <div class="checklist-item"><input type="checkbox" id="c7"><label for="c7"><strong>Business Continuity</strong> - 高可用性與業務持續性架構</label></div>
-        <div class="checklist-item"><input type="checkbox" id="c8"><label for="c8"><strong>Encryption</strong> - 敏感資料靜態與動態加密</label></div>
-        <div class="checklist-item"><input type="checkbox" id="c9"><label for="c9"><strong>Against Attack</strong> - 抗攻擊性 (如 SQLi / XSS 防禦)</label></div>
-        <div class="checklist-item"><input type="checkbox" id="c10"><label for="c10"><strong>Compliance</strong> - 符合資安法規與標準</label></div>
-        <div class="checklist-item"><input type="checkbox" id="c11"><label for="c11"><strong>Backup</strong> - 定期備份與異地備援機制</label></div>
-
-        <button class="btn" style="margin-top: 20px;" onclick="checkSystemStatus()">計算系統安全等級</button>
-        <p id="score-result" style="margin-top: 10px; font-weight: bold;"></p>
-      </div>
+      <div id="sdlc-list"></div>
     </section>
 
-    <!-- 主題四：資訊安全概論 -->
+    <!-- 主題四：資訊安全概論議題 -->
     <section id="theme4" class="page-section">
-      <h1 class="page-title">🌐 主題四：資訊安全概論議題</h1>
-      <p>你在意與可能面臨的資訊安全實體及數位議題：</p>
+      <h1 style="color: #fff; margin-bottom: 10px;">🌐 主題四：資訊安全概論議題</h1>
+      <p style="color: #8b949e; margin-bottom: 20px;">點擊檢視實體與數位潛在威脅分析：</p>
 
-      <div class="grid-container">
-        <div class="info-card"><h4>⚡ 停電</h4><p>應對措施：不斷電系統 (UPS) 與備用發電機。</p></div>
-        <div class="info-card"><h4>🔐 失竊</h4><p>應對措施：門禁管制、實體機房鎖定與硬體加密。</p></div>
-        <div class="info-card"><h4>🔥 火災</h4><p>應對措施：氣體滅火系統與異地備援資料備份。</p></div>
-        <div class="info-card"><h4>🐛 軟體錯誤</h4><p>應對措施：單元測試、Code Review 與持續整合 (CI/CD)。</p></div>
-        <div class="info-card"><h4>🔓 資料外洩</h4><p>應對措施：DLP 資料外禦系統與欄位級加密。</p></div>
-        <div class="info-card"><h4>🛡️ 系統漏洞</h4><p>應對措施：定期弱點掃描與修補程式更新 (Patching)。</p></div>
-        <div class="info-card"><h4>⚔️ 駭客攻擊</h4><p>應對措施：建置 SOC 監控中心與入侵防禦系統 (IPS)。</p></div>
-        <div class="info-card"><h4>📡 網路中斷</h4><p>應對措施：多電信業者備援線路 (ISP Redundancy)。</p></div>
-        <div class="info-card"><h4>🚨 網站異常</h4><p>應對措施：自動化 Health Check 與 CDN 流量分流。</p></div>
-      </div>
+      <div id="general-topics-list"></div>
     </section>
 
   </main>
 
   <script>
-    // 頁面切換邏輯
+    // 頁面切換
     function switchPage(pageId) {
-      document.querySelectorAll('.page-section').forEach(sec => {
-        sec.classList.remove('active');
-      });
-      document.querySelectorAll('.nav-item').forEach(item => {
-        item.classList.remove('active');
-      });
+      document.querySelectorAll('.page-section').forEach(sec => sec.classList.remove('active'));
+      document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
 
       document.getElementById(pageId).classList.add('active');
       event.currentTarget.classList.add('active');
     }
 
-    // 首頁警報測試
-    function triggerAlert() {
-      alert("🚨【最高戰術警報】檢測到異常網路封包掃描！\n聯合指揮中心已啟動防禦矩陣，防護等級升至第一級！");
-    }
-
-    // 主題一：威脅細節切換
-    const threatDetails = {
-      t1: { title: "木馬 (Trojan)", desc: "防範建議：切勿開啟來源不明的執行檔，並配置端點防護 (EDR) 軟體。" },
-      t2: { title: "病毒 (Virus)", desc: "防範建議：保持作業系統更新，並啟用即時防毒掃描。" },
-      t3: { title: "電子郵件社交工程", desc: "防範建議：仔細核對寄件者 Address，不隨意點擊社交工程信件連結。" },
-      t4: { title: "網路釣魚 (Phishing)", desc: "防範建議：確認網址列是否具備安全憑證 (HTTPS)，並啟用雙重驗證 (2FA)。" },
-      t5: { title: "零時差攻擊 (Zero-Day)", desc: "防範建議：採用縱深防禦機制，強化縱向與橫向沙盒隔離測試。" },
-      t6: { title: "DDoS 攻擊", desc: "防範建議：導入流量清洗服務 (CDN / DDoS Scrubbing Center)。" },
-      t7: { title: "供應鏈攻擊", desc: "防範建議：稽核第三方供應商的安全資質，執行嚴格的套件相依性檢查。" },
-      t8: { title: "程式漏洞攻擊", desc: "防範建議：導入靜態/動態程式碼安全分析 (SAST/DAST)。" }
-    };
-
-    function toggleThreat(key) {
-      const panel = document.getElementById('threat-panel');
-      const data = threatDetails[key];
-      panel.innerHTML = `
-        <h3 style="color: #ff7b72;">🔍 ${data.title} - 應對指南</h3>
-        <p style="margin-top: 10px; line-height: 1.6;">${data.desc}</p>
-      `;
-    }
-
-    // 主題三：安全等級計算
-    function checkSystemStatus() {
-      const total = 11;
-      let checked = 0;
-      for (let i = 1; i <= total; i++) {
-        if (document.getElementById('c' + i).checked) checked++;
-      }
-      const percent = Math.round((checked / total) * 100);
-      const resultEl = document.getElementById('score-result');
+    // Accordion 展開切換
+    function toggleAccordion(header) {
+      const item = header.parentElement;
+      const content = item.querySelector('.accordion-content');
       
-      if (percent === 100) {
-        resultEl.style.color = "#238636";
-        resultEl.innerText = `🛡️ 防禦得分：${percent}% - 金正恩與習近平同聲讚賞：達到絕對安全堡壘標準！`;
-      } else if (percent >= 60) {
-        resultEl.style.color = "#f1e05a";
-        resultEl.innerText = `⚠️ 防禦得分：${percent}% - 賴清德提醒：具備基本防務，但仍需補強剩餘 ${total - checked} 項指標以展現民主韌性。`;
+      if (item.classList.contains('active')) {
+        item.classList.remove('active');
+        content.style.maxHeight = null;
       } else {
-        resultEl.style.color = "#da3633";
-        resultEl.innerText = `🚨 防禦得分：${percent}% - 戰情中心警告：系統漏洞百出，極易遭受破壞！`;
+        item.classList.add('active');
+        content.style.maxHeight = content.scrollHeight + "px";
       }
     }
+
+    // 動態動態生成主題三數據
+    const theme3Data = [
+      { t: "Communication Security (通訊安全)", m: "傳輸過程防監聽與竄改", s: "未啟用 HTTPS 導致使用者在公用 Wi-Fi 傳輸的明文密碼被輕易監聽。" },
+      { t: "Access Control (存取控制)", m: "基於角色權限（RBAC）嚴格控管存取", s: "一般使用者透過修改 URL 參數即可存取後台管理員頁面。" },
+      { t: "Information Confidentiality (資訊機密性)", m: "敏感資料進行去識別化與隱蔽", s: "系統直接在頁面顯示全碼身分證字號與信用卡號致個資外洩。" },
+      { t: "Authenticity & Accountability (真實性與可問責性)", m: "確認操作者身份並記錄完整歷程", s: "共用帳號導致系統資料遭刪除後無法查明具體操作人員。" },
+      { t: "Non-repudiation (不可否認性)", m: "利用數位簽章技術確保交易行為無法否認", s: "使用者下單後聲稱非本人操作，因無不可否認驗證導致爭議無法解決。" },
+      { t: "Audit Trail (稽核軌跡)", m: "保存安全事件日誌 (Logs)", s: "遭遇駭客侵入後，因日誌系統未開啟而無法追查入侵路徑與損害範圍。" },
+      { t: "Business Continuity (業務持續性)", m: "耐震耐災的高可用系統設計", s: "單點故障（SPOF）導致資料中心斷電後服務整整癱瘓 48 小時。" },
+      { t: "Encryption (加密技術)", m: "資料靜態 (At Rest) 與動態 (In Transit) 加密", s: "資料庫硬體遭竊，由於內部資料為明文儲存，數百萬個資直接洩漏。" },
+      { t: "Against Attack (防禦攻擊能力)", m: "代碼層級具備抵禦 XSS/SQLi 之能力", s: "未對輸入框過濾導致跨站腳本攻擊 (XSS)，竊取其他線上使用者的 Session Cookie。" },
+      { t: "Compliance (法規遵循)", m: "符合 GDPR, ISO27001 等規範", s: "未遵循個資法規定，遭裁罰鉅額罰款並遭受企業聲譽重創。" },
+      { t: "Backup (備份機制)", m: "實施 3-2-1 備份原則與異地備援", s: "遭受勒索病毒攻擊，連同本地備份硬碟一起被加密，無法還原任何資料。" }
+    ];
+
+    const theme3Container = document.getElementById('sdlc-list');
+    theme3Data.forEach((item, index) => {
+      theme3Container.innerHTML += `
+        <div class="accordion-item">
+          <div class="accordion-header" onclick="toggleAccordion(this)">
+            <span>💻 ${index + 1}. ${item.t}</span><span class="icon">▼</span>
+          </div>
+          <div class="accordion-content">
+            <div class="accordion-body">
+              <span class="analysis-tag tag-meaning">核心涵義</span>
+              <p>${item.m}</p><br>
+              <span class="analysis-tag tag-situation">潛在風險情境</span>
+              <p>${item.s}</p>
+            </div>
+          </div>
+        </div>
+      `;
+    });
+
+    // 動態生成主題四數據
+    const theme4Data = [
+      { t: "停電 (Power Outage)", m: "非預期之電力中斷", s: "機房斷電導致高壓伺服器異常關機，資料庫檔案寫入中途損毀。" },
+      { t: "失竊 (Physical Theft)", m: "實體設備或儲存媒體遭竊", s: "離職員工偷走包含未加密客戶名單的備份隨身硬碟。" },
+      { t: "火災 (Fire Hazard)", m: "機房高熱或短路引發火警", s: "傳統洒水滅火設備損壞精密伺服器，資料徹底無法救回。" },
+      { t: "軟體錯誤 (Software Bug)", m: "程式碼邊界邏輯處理不當", s: "溢位錯誤導致系統崩潰，被駭客用作遠端執行程式碼 (RCE) 之破口。" },
+      { t: "資料外洩 (Data Leakage)", m: "機密敏感資料不當公開或外傳", s: "員工將內部開發程式碼與金鑰公開上傳至公共 GitHub 倉庫。" },
+      { t: "系統漏洞 (Vulnerability)", m: "系統版本過舊存在的安全缺口", s: "未及時修補 Log4j 漏洞，導致後台被自動化腳本直接攻陷。" },
+      { t: "駭客攻擊 (Hacker Attack)", m: "具目的性之惡意入侵行為", s: "進階持續性威脅 (APT) 潛伏內網數月，偷偷下載商業機密。" },
+      { t: "網路中斷 (Network Disruption)", m: "實體光纖挖斷或 ISP 路由異常", s: "聯外光纖因工程挖斷，導致全球線上服務完全無法存取。" },
+      { t: "網站異常 (Web Anomaly)", m: "網站遭受首頁篡改或腳本植入", s: "網站首頁被駭客替換為政治標語，嚴重影響單位聲譽與信任度。" }
+    ];
+
+    const theme4Container = document.getElementById('general-topics-list');
+    theme4Data.forEach((item, index) => {
+      theme4Container.innerHTML += `
+        <div class="accordion-item">
+          <div class="accordion-header" onclick="toggleAccordion(this)">
+            <span>🌐 ${index + 1}. ${item.t}</span><span class="icon">▼</span>
+          </div>
+          <div class="accordion-content">
+            <div class="accordion-body">
+              <span class="analysis-tag tag-meaning">問題涵義</span>
+              <p>${item.m}</p><br>
+              <span class="analysis-tag tag-situation">情境狀況與影響</span>
+              <p>${item.s}</p>
+            </div>
+          </div>
+        </div>
+      `;
+    });
   </script>
 </body>
 </html>
