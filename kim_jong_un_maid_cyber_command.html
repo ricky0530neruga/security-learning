@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>最高尊嚴萌萌女僕戰術指揮中心 - KJU Maid Cyber Command</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&family=Noto+Sans+TC:wght@400;700;900&display=swap');
+
+    body {
+      font-family: 'Noto Sans TC', sans-serif;
+      background-color: #0d0f17;
+      color: #e2e8f0;
+      overflow-x: hidden;
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #111827;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #ec4899;
+      border-radius: 4px;
+    }
+
+    /* Animated Maid Glow & HUD Effects */
+    .maid-pink-glow {
+      box-shadow: 0 0 25px rgba(236, 72, 153, 0.4), inset 0 0 15px rgba(236, 72, 153, 0.2);
+    }
+
+    .hud-border {
+      position: relative;
+      border: 2px solid #f472b6;
+    }
+
+    .hud-border::before {
+      content: '';
+      position: absolute;
+      top: -4px; left: -4px; width: 12px; height: 12px;
+      border-top: 3px solid #ff007f;
+      border-left: 3px solid #ff007f;
+    }
+
+    .hud-border::after {
+      content: '';
+      position: absolute;
+      bottom: -4px; right: -4px; width: 12px; height: 12px;
+      border-bottom: 3px solid #ff007f;
+      border-right: 3px solid #ff007f;
+    }
+
+    /* Floating Maid Sparkles Animation */
+    @keyframes floatSparkle {
+      0%, 100% { transform: translateY(0px) rotate(0deg) scale(1); opacity: 0.8; }
+      50% { transform: translateY(-12px) rotate(15deg) scale(1.1); opacity: 1; }
+    }
+
+    .sparkle-anim {
+      animation: floatSparkle 3s ease-in-out infinite;
+    }
+
+    /* Maid Headband Bounce */
+    @keyframes bowWiggle {
+      0%, 100% { transform: rotate(0deg); }
+      25% { transform: rotate(-3deg); }
+      75% { transform: rotate(3deg); }
+    }
+
+    .wiggle-bow {
+      transform-origin: center;
+      animation: bowWiggle 2s ease-in-out infinite;
+    }
+
+    /* Laser Eyes FX */
+    .laser-eye {
+      opacity: 0;
+      transition: opacity 0.2s ease-in-out;
+    }
+    .laser-active .laser-eye {
+      opacity: 1;
+    }
+
+    /* Custom Accordion Transition */
+    .accordion-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+  </style>
+</head>
+<body class="flex min-h-screen bg-slate-950 text-slate-100">
+
+  <!-- Left Sidebar Navigation -->
+  <aside class="w-72 bg-slate-900/95 border-r border-pink-500/30 flex flex-col fixed top-0 bottom-0 left-0 z-50 backdrop-blur-md shadow-2xl">
+    <!-- Header -->
+    <div class="p-5 border-b border-pink-500/30 bg-gradient-to-r from-pink-950/40 via-slate-900 to-purple-950/40">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-full bg-pink-500 flex items-center justify-center text-slate-950 font-black text-xl shadow-lg shadow-pink-500/50">
+          🎀
+        </div>
+        <div>
+          <h1 class="text-pink-400 font-black text-base tracking-wider">最高尊嚴</h1>
+          <p class="text-xs text-pink-300/80 font-bold tracking-widest">萌萌女僕戰術指揮中心</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigation Menu -->
+    <nav class="flex-1 p-4 space-y-2 overflow-y-auto">
+      <button onclick="switchTab('home')" id="nav-home" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl font-bold text-sm text-pink-300 bg-pink-500/20 border border-pink-500/40 shadow-lg shadow-pink-500/10 transition-all">
+        <i class="fa-solid font-bold fa-crown text-pink-400 w-5"></i>
+        <span>🏠 首頁：元首萌化司令部</span>
+      </button>
+
+      <button onclick="switchTab('theme1')" id="nav-theme1" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl font-bold text-sm text-slate-400 hover:text-pink-300 hover:bg-slate-800/60 border border-transparent transition-all">
+        <i class="fa-solid fa-triangle-exclamation text-rose-400 w-5"></i>
+        <span>⚠️ 主題一：資安威脅</span>
+      </button>
+
+      <button onclick="switchTab('theme2')" id="nav-theme2" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl font-bold text-sm text-slate-400 hover:text-pink-300 hover:bg-slate-800/60 border border-transparent transition-all">
+        <i class="fa-solid fa-sliders text-amber-400 w-5"></i>
+        <span>⚙️ 主題二：管控模式</span>
+      </button>
+
+      <button onclick="switchTab('theme3')" id="nav-theme3" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl font-bold text-sm text-slate-400 hover:text-pink-300 hover:bg-slate-800/60 border border-transparent transition-all">
+        <i class="fa-solid fa-code text-cyan-400 w-5"></i>
+        <span>💻 主題三：系統設計安全</span>
+      </button>
+
+      <button onclick="switchTab('theme4')" id="nav-theme4" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl font-bold text-sm text-slate-400 hover:text-pink-300 hover:bg-slate-800/60 border border-transparent transition-all">
+        <i class="fa-solid fa-globe text-emerald-400 w-5"></i>
+        <span>🌐 主題四：資安概論議題</span>
+      </button>
+    </nav>
+
+    <!-- Sidebar Footer Badge -->
+    <div class="p-4 border-t border-slate-800 text-center">
+      <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-pink-950/60 border border-pink-500/30 text-xs text-pink-300 font-mono">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+        UNIT 911 MAID ONLINE
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content Container -->
+  <main class="ml-72 flex-1 p-8 max-w-6xl mx-auto">
+
+    <!-- PAGE 1: HOME (MAID KIM JONG UN HERO) -->
+    <section id="page-home" class="page-content space-y-8">
+      
+      <!-- Vector Anime Maid Kim Jong Un Hero Card -->
+      <div id="hero-card" class="hud-border maid-pink-glow rounded-3xl bg-slate-900/90 p-8 border border-pink-500/40 relative overflow-hidden">
+        
+        <!-- Background Tactical Grid -->
+        <div class="absolute inset-0 bg-[linear-gradient(to_right,#1f293715_1px,transparent_1px),linear-gradient(to_bottom,#1f293715_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none"></div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
+          
+          <!-- Maid Kim Jong Un SVG Vector Illustration -->
+          <div class="lg:col-span-5 flex flex-col items-center justify-center relative">
+            <div class="w-full max-w-[340px] aspect-square relative flex items-center justify-center">
+              
+              <!-- Glowing Maid Halo behind Leader -->
+              <div class="absolute w-72 h-72 rounded-full bg-gradient-to-tr from-pink-600/30 via-purple-600/20 to-pink-400/30 blur-2xl animate-pulse"></div>
+
+              <!-- Vector SVG Artwork (100% Reliable Client-Side Render) -->
+              <svg id="maid-kju-svg" viewBox="0 0 400 400" class="w-full h-full drop-shadow-[0_10px_25px_rgba(236,72,153,0.5)] transition-all duration-300">
+                <!-- Cyber Tactical Aura Circles -->
+                <circle cx="200" cy="200" r="180" fill="none" stroke="#f472b6" stroke-width="2" stroke-dasharray="6,6" opacity="0.4" />
+                <circle cx="200" cy="200" r="160" fill="none" stroke="#ec4899" stroke-width="1.5" opacity="0.6" />
+
+                <!-- Laser Attack Beams (Hidden by default, activated on button click) -->
+                <g class="laser-eye">
+                  <line x1="175" y1="165" x2="20" y2="380" stroke="#ff0055" stroke-width="8" stroke-linecap="round" />
+                  <line x1="225" y1="165" x2="380" y2="380" stroke="#ff0055" stroke-width="8" stroke-linecap="round" />
+                  <line x1="175" y1="165" x2="20" y2="380" stroke="#ffffff" stroke-width="3" stroke-linecap="round" />
+                  <line x1="225" y1="165" x2="380" y2="380" stroke="#ffffff" stroke-width="3" stroke-linecap="round" />
+                </g>
+
+                <!-- Maid Outfit Base Body (Black Uniform) -->
+                <path d="M 120 280 L 280 280 L 310 390 L 90 390 Z" fill="#111827" stroke="#374151" stroke-width="3" />
+                
+                <!-- White Frilly Maid Apron -->
+                <path d="M 140 280 Q 200 300 260 280 L 285 390 L 115 390 Z" fill="#f8fafc" stroke="#e2e8f0" stroke-width="2" />
+                <!-- Apron Lace Trim -->
+                <path d="M 115 390 Q 130 380 145 390 Q 160 380 175 390 Q 190 380 205 390 Q 220 380 235 390 Q 250 380 265 390 Q 280 380 285 390" fill="none" stroke="#f472b6" stroke-width="3" />
+                
+                <!-- Red Tactical Maid Bowtie -->
+                <path d="M 160 265 L 200 280 L 240 265 L 200 295 Z" fill="#e11d48" />
+                <circle cx="200" cy="277" r="8" fill="#f43f5e" />
+
+                <!-- Neck & Shoulder Armor -->
+                <path d="M 160 240 L 240 240 L 255 280 L 145 280 Z" fill="#e2e8f0" stroke="#94a3b8" stroke-width="2" />
+
+                <!-- Head Base (Iconic Leader Shape) -->
+                <ellipse cx="200" cy="180" rx="65" ry="70" fill="#fde047" opacity="0.15" />
+                <ellipse cx="200" cy="175" rx="62" ry="65" fill="#fed7aa" />
+
+                <!-- Iconic KJU Hair Cut (High and Tight Square Top) -->
+                <path d="M 130 160 C 130 110, 270 110, 270 160 C 270 125, 250 100, 200 100 C 150 100, 130 125, 130 160 Z" fill="#1e293b" />
+                <!-- Sideburns -->
+                <rect x="135" y="150" width="10" height="25" fill="#1e293b" />
+                <rect x="255" y="150" width="10" height="25" fill="#1e293b" />
+
+                <!-- Anime Maid Headband (Katyusha White Frills & Pink Bows) -->
+                <g class="wiggle-bow">
+                  <!-- Maid Frill Arc -->
+                  <path d="M 130 120 Q 200 80 270 120" fill="none" stroke="#ffffff" stroke-width="16" stroke-linecap="round" />
+                  <path d="M 130 120 Q 200 80 270 120" fill="none" stroke="#f472b6" stroke-width="4" stroke-dasharray="8,6" stroke-linecap="round" />
+                  
+                  <!-- Left Ribbon Bow -->
+                  <path d="M 120 125 L 105 115 L 120 105 Z" fill="#ec4899" />
+                  <path d="M 120 125 L 105 135 L 120 105 Z" fill="#ec4899" />
+                  <!-- Right Ribbon Bow -->
+                  <path d="M 280 125 L 295 115 L 280 105 Z" fill="#ec4899" />
+                  <path d="M 280 125 L 295 135 L 280 105 Z" fill="#ec4899" />
+                </g>
+
+                <!-- Anime Maid Cheeks & Eyebrows -->
+                <!-- Cute Blush Circles -->
+                <ellipse cx="160" cy="180" rx="12" ry="7" fill="#f43f5e" opacity="0.4" />
+                <ellipse cx="240" cy="180" rx="12" ry="7" fill="#f43f5e" opacity="0.4" />
+                
+                <!-- Strong Leader Eyebrows -->
+                <path d="M 155 152 Q 175 148 185 156" fill="none" stroke="#0f172a" stroke-width="4" stroke-linecap="round" />
+                <path d="M 245 152 Q 225 148 215 156" fill="none" stroke="#0f172a" stroke-width="4" stroke-linecap="round" />
+
+                <!-- Big Anime Eyes -->
+                <ellipse cx="172" cy="166" rx="10" ry="12" fill="#0f172a" />
+                <ellipse cx="228" cy="166" rx="10" ry="12" fill="#0f172a" />
+                <!-- Anime Sparkle Highlights -->
+                <circle cx="170" cy="162" r="3.5" fill="#ffffff" />
+                <circle cx="226" cy="162" r="3.5" fill="#ffffff" />
+                <circle cx="174" cy="170" r="1.8" fill="#ffffff" />
+                <circle cx="230" cy="170" r="1.8" fill="#ffffff" />
+
+                <!-- Cute Confident Smile -->
+                <path d="M 185 195 Q 200 208 215 195" fill="none" stroke="#0f172a" stroke-width="3.5" stroke-linecap="round" />
+
+                <!-- Cyber Glasses HUD Frame -->
+                <rect x="150" y="155" width="42" height="22" rx="4" fill="none" stroke="#38bdf8" stroke-width="2" opacity="0.8" />
+                <rect x="208" y="155" width="42" height="22" rx="4" fill="none" stroke="#38bdf8" stroke-width="2" opacity="0.8" />
+                <line x1="192" y1="166" x2="208" y2="166" stroke="#38bdf8" stroke-width="2" />
+              </svg>
+
+              <!-- Floating Sparkles -->
+              <div class="absolute top-2 left-4 text-2xl sparkle-anim">✨</div>
+              <div class="absolute bottom-6 right-4 text-2xl sparkle-anim" style="animation-delay: 1.5s;">💖</div>
+            </div>
+
+            <!-- Maid Leader Status Badge -->
+            <div class="mt-2 text-center">
+              <span class="inline-block px-4 py-1 rounded-full bg-pink-500/20 border border-pink-400/50 text-pink-300 font-bold text-xs shadow-md">
+                🎀 金元首・萌化女僕形態 (Mode: Moe-Tactical)
+              </span>
+            </div>
+          </div>
+
+          <!-- Maid Command Unit Info & Dialogue -->
+          <div class="lg:col-span-7 space-y-5">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-pink-950/80 border border-pink-500/40 text-pink-400 text-xs font-mono">
+              <i class="fa-solid fa-heart"></i> SUPREME MAID CYBER COMMAND UNIT
+            </div>
+
+            <h2 class="text-3xl md:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-rose-300 to-purple-400 leading-tight">
+              最高尊嚴萌萌女僕戰術指揮中心 🐾
+            </h2>
+
+            <!-- Speech Bubble Dialogue -->
+            <div class="relative bg-slate-800/90 border-2 border-pink-500/40 p-5 rounded-2xl shadow-xl">
+              <div class="absolute -left-3 top-6 w-0 h-0 border-t-8 border-t-transparent border-r-[12px] border-r-pink-500/40 border-b-8 border-b-transparent"></div>
+              <p id="leader-dialogue" class="text-slate-200 text-base md:text-lg leading-relaxed font-bold">
+                「主人，歡迎回到最高資安指揮中心喵～！不管是零日漏洞還是 DDoS 攻擊，萌萌女僕親衛隊都會幫您一網打盡，絕對不讓敵人越過防線半步，哼哼！(๑•̀ㅂ•́)و✧」
+              </p>
+            </div>
+
+            <!-- Funny Interactive Command Buttons -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+              <button onclick="triggerLaserBeam()" class="flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl font-black text-sm bg-gradient-to-r from-pink-600 to-rose-600 hover:from-pink-500 hover:to-rose-500 text-white shadow-lg shadow-pink-600/30 active:scale-95 transition-all">
+                <span>⚡ 萌萌萌！萌化光束發射！</span>
+              </button>
+
+              <button onclick="triggerReportDialog()" class="flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl font-black text-sm bg-slate-800 hover:bg-slate-700 text-pink-300 border border-pink-500/40 shadow-md active:scale-95 transition-all">
+                <span>🐾 主人，這是您的資安報告喵～</span>
+              </button>
+            </div>
+
+            <!-- Interactive Action Console Message Log -->
+            <div id="action-console" class="p-3 bg-slate-950/80 rounded-xl border border-pink-500/30 text-xs font-mono text-pink-300 flex items-center justify-between">
+              <span>[SYSTEM LOG]: 女僕戰術指揮中心已連線，金元首女僕防線運作中...</span>
+              <span class="text-emerald-400 font-bold">STATUS: OK</span>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Three Command Cards Overview -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-slate-900/80 border border-rose-500/30 rounded-2xl p-5 hover:border-rose-500 transition-all shadow-lg">
+          <div class="text-rose-400 text-2xl font-black mb-2 flex items-center gap-2">
+            <span>🚩 尊嚴萌化區</span>
+            <span class="text-xs font-normal px-2 py-0.5 rounded bg-rose-950 border border-rose-800 text-rose-300">金正恩女僕</span>
+          </div>
+          <p class="text-slate-300 text-sm leading-relaxed">
+            貫徹「萌即是正義」的主權控管！對所有進入網路範圍的惡意封包實施萌化改造與即時打擊。
+          </p>
+        </div>
+
+        <div class="bg-slate-900/80 border border-amber-500/30 rounded-2xl p-5 hover:border-amber-500 transition-all shadow-lg">
+          <div class="text-amber-400 text-2xl font-black mb-2 flex items-center gap-2">
+            <span>🏛️ 全面管控體系</span>
+            <span class="text-xs font-normal px-2 py-0.5 rounded bg-amber-950 border border-amber-800 text-amber-300">習近平模式</span>
+          </div>
+          <p class="text-slate-300 text-sm leading-relaxed">
+            貫徹總體安全觀，以策略、管理、技術三位一體織密全方位網路安全防禦網。
+          </p>
+        </div>
+
+        <div class="bg-slate-900/80 border border-cyan-500/30 rounded-2xl p-5 hover:border-cyan-500 transition-all shadow-lg">
+          <div class="text-cyan-400 text-2xl font-black mb-2 flex items-center gap-2">
+            <span>🌐 民主高科技韌性</span>
+            <span class="text-xs font-normal px-2 py-0.5 rounded bg-cyan-950 border border-cyan-800 text-cyan-300">賴清德模式</span>
+          </div>
+          <p class="text-slate-300 text-sm leading-relaxed">
+            運用零信任架構（Zero Trust）與 Secure SDLC 開發安全，打造國際可信賴之資安供應鏈生態。
+          </p>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- PAGE 2: THEME 1 (THREATS) -->
+    <section id="page-theme1" class="page-content hidden space-y-6">
+      <div class="border-b border-pink-500/30 pb-4">
+        <h2 class="text-3xl font-black text-pink-400 flex items-center gap-3">
+          <span>⚠️ 主題一：使用環境下的資安威脅</span>
+        </h2>
+        <p class="text-slate-400 text-sm mt-1">點擊下方卡片檢視項目的深度涵義、潛在情境狀況與女僕戰術防禦對策：</p>
+      </div>
+
+      <div id="container-theme1" class="space-y-4"></div>
+    </section>
+
+    <!-- PAGE 3: THEME 2 (CONTROL MODELS) -->
+    <section id="page-theme2" class="page-content hidden space-y-6">
+      <div class="border-b border-pink-500/30 pb-4">
+        <h2 class="text-3xl font-black text-amber-400 flex items-center gap-3">
+          <span>⚙️ 主題二：資訊安全管控模式</span>
+        </h2>
+        <p class="text-slate-400 text-sm mt-1">點擊下方三大面向面板檢視組織管理的縱深防禦：</p>
+      </div>
+
+      <div id="container-theme2" class="space-y-4"></div>
+    </section>
+
+    <!-- PAGE 4: THEME 3 (SYSTEM DESIGN SECURITY) -->
+    <section id="page-theme3" class="page-content hidden space-y-6">
+      <div class="border-b border-pink-500/30 pb-4">
+        <h2 class="text-3xl font-black text-cyan-400 flex items-center gap-3">
+          <span>💻 主題三：系統設計的安全議題 (Secure SDLC)</span>
+        </h2>
+        <p class="text-slate-400 text-sm mt-1">軟體開發全週期 11 大核心安全要點與情境檢析：</p>
+      </div>
+
+      <div id="container-theme3" class="space-y-4"></div>
+    </section>
+
+    <!-- PAGE 5: THEME 4 (GENERAL SECURITY TOPICS) -->
+    <section id="page-theme4" class="page-content hidden space-y-6">
+      <div class="border-b border-pink-500/30 pb-4">
+        <h2 class="text-3xl font-black text-emerald-400 flex items-center gap-3">
+          <span>🌐 主題四：資訊安全概論議題</span>
+        </h2>
+        <p class="text-slate-400 text-sm mt-1">涵蓋實體環境、軟體系統與營運層面的常見安全性挑戰：</p>
+      </div>
+
+      <div id="container-theme4" class="space-y-4"></div>
+    </section>
+
+  </main>
+
+  <script>
+    // Data structures for all interactive accordion topics
+    const theme1Data = [
+      { id: "t1_1", icon: "🐴", name: "1. 木馬程式 (Trojan)", meaning: "偽裝成合法且無害的軟體，誘騙使用者安裝，實則在背景開設遠端後門（RAT）供攻擊者操控。", situation: "員工下載標榜『免費PDF轉檔工具』，安裝後暗中連結 C2 伺服器，使企業內網主機遭外聯監控與權限提升。", defense: "實施應用程式白名單管制，並部署 EDR 終端偵測回應機制。" },
+      { id: "t1_2", icon: "🦠", name: "2. 電腦病毒 (Virus)", meaning: "具備自我複製能力的惡意程式碼，必須依附於特定宿主檔案或載體上，隨執行而擴散感染。", situation: "隨身碟連接至受感染電腦後，內部 Word 檔案被附加惡意巨集，經郵件轉寄後感染整間公司檔案。", defense: "禁用未知 USB 裝置，並確保防毒軟體即時更新病毒碼。" },
+      { id: "t1_3", icon: "📧", name: "3. 電子郵件社交工程 (Social Engineering)", meaning: "利用心理學原理與信任弱點，透過精心設計的詐騙信件誘使受害者提供敏感資料或執行動作。", situation: "財務人員收到偽裝成『執行長緊急轉帳指示』的郵件，因未經二次雙重驗證而匯出鉅款。", defense: "定期進行社交工程演練，落實涉及資金撥款之雙人覆核 SOP。" },
+      { id: "t1_4", icon: "🎣", name: "4. 網路釣魚 (Phishing)", meaning: "架設高仿度的假冒登入頁面，騙取使用者的帳號密碼、信用卡資訊或二階段驗證碼 (OTP)。", situation: "使用者收到『銀行帳戶安全性異常』簡訊，點擊簡訊內偽造網址並輸入密碼，信用卡即刻遭盜刷。", defense: "推行 FIDO2 無密碼 / 硬體金鑰 MFA 驗證，防止憑證遭攔截。" },
+      { id: "t1_5", icon: "⚡", name: "5. 零時差攻擊 (Zero-Day Attack)", meaning: "針對軟體原廠尚未發現或尚未發布修補程式 (Patch) 的未知安全漏洞發起的精準打擊。", situation: "國家級駭客利用瀏覽器未公開漏洞，使用者僅造訪特定網頁即在無感狀態下被植入間諜軟體。", defense: "採用微分割網路防禦與網頁隔離技術 (RBI)，減少攻擊面。" },
+      { id: "t1_6", icon: "💥", name: "6. 分散式阻斷服務攻擊 (DDoS)", meaning: "操控由數萬台受害 IoT 設備組成的殭屍網絡 (Botnet)，發送海量無效封包癱瘓目標系統。", situation: "電商平台於雙 11 活動高峰期遭受 1 Tbps 流量衝擊，伺服器記憶體耗盡關機，造成重大營業損失。", defense: "導入雲端 DDoS 流量清洗服務 (如 Cloudflare / Akamai)。" },
+      { id: "t1_7", icon: "🔗", name: "7. 供應鏈攻擊 (Supply Chain Attack)", meaning: "繞過目標主體嚴密的防禦，改為入侵其高度信任的第三方供應商、委外廠商或更新伺服器。", situation: "軟體委外開發商的更新伺服器遭注入惡意代碼，客戶在進行官方例行更新時全體染毒。", defense: "建立第三方供應商資安稽核機制與 Software Bill of Materials (SBOM)。" },
+      { id: "t1_8", icon: "🐛", name: "8. 程式漏洞攻擊 (Software Vulnerability)", meaning: "利用程式碼編寫缺陷（如 SQL Injection、Buffer Overflow）存取未授權數據或執行系統指令。", situation: "駭客於搜尋欄輸入未過濾之 SQL 語法，成功繞過登入機制並導出完整使用者資料庫。", defense: "建立 Secure SDLC 與靜態/動態程式碼掃描 (SAST/DAST)。" }
+    ];
+
+    const theme2Data = [
+      { id: "t2_1", icon: "📊", name: "1. 策略面 (Strategy Level)", meaning: "由最高管理層制定資安願景與合規政策，將資安提升至企業治理與營運風險層級。", situation: "若缺乏策略面，資安常被視為成本負擔，面臨重大事件時無法啟動業務持續營運計畫 (BCP)。", defense: "成立資安專責委員會，定期提報 ISO 27001 與資安治理指標給董事會。" },
+      { id: "t2_2", icon: "📋", name: "2. 管理面 (Management Level)", meaning: "透過標準作業程序 (SOP)、風險評估、人員社交工程演練與權限審查，確保防禦落地實施。", situation: "離職員工帳號未及時關閉，使其能在離職後繼續存取內部機密研發文件。", defense: "實施嚴格的人員離職資產清冊與 IAM 帳號生命週期自動化撤銷機制。" },
+      { id: "t2_3", icon: "🛡️", name: "3. 技術面 (Technology Level)", meaning: "部署實體與數位科技工具（如防火牆、SIEM、MFA、資料加密）進行實體與虛擬防護。", situation: "外部防火牆防禦固若金湯，但內網缺乏微分割，導致單點破口後全網遭橫向移動感染。", defense: "貫徹零信任（Zero Trust Framework）架構：永不信任，始終驗證。" }
+    ];
+
+    const theme3Data = [
+      { id: "t3_1", icon: "🔒", name: "1. Communication Security (通訊安全)", meaning: "確保資料於網路傳輸過程中具備機密性與完整性，防範中途攔截或竄改。", situation: "網站未強制使用 TLS 1.3，使用者於公共 Wi-Fi 輸入之密碼以明文被竊聽。", defense: "全面強制 HTTPS，啟用 HSTS 並停用過時之 SSL/TLS 協定版本。" },
+      { id: "t3_2", icon: "🔑", name: "2. Access Control (存取控制)", meaning: "實施最小權限原則 (PoLP) 與角色存取控制 (RBAC)，防止越權存取。", situation: "一般使用者透過修改 URL 參數 (IDOR 漏洞) 即可檢視其他人的個人健康紀錄。", defense: "所有 API 與後端路由皆進行強制的伺服器端身份與權限驗證。" },
+      { id: "t3_3", icon: "🙈", name: "3. Information Confidentiality (資訊機密性)", meaning: "敏感資料進行去識別化、雜湊或加密儲存，避免資訊洩露。", situation: "資料庫遭未授權存取時，發現大量信用卡號與身分證字號皆以明文存放。", defense: "敏感欄位採用 AES-256 加密，密碼採用 Argon2 或 bcrypt 鹽值雜湊。" },
+      { id: "t3_4", icon: "👤", name: "4. Authenticity & Accountability (真實性與可問責性)", meaning: "確認使用者與系統真實身分，並精確記錄每個動作的責任歸屬。", situation: "多名管理者共用 root 帳號，當系統設定經異動導致故障時無法歸屬責任。", defense: "禁止共用帳號，全面導入個人化帳號與 PAM 特權帳號管理系統。" },
+      { id: "t3_5", icon: "✍️", name: "5. Non-repudiation (不可否認性)", meaning: "利用數位簽章與不可篡改日誌，確保發起者無法否認其行為。", situation: "使用者完成高額轉帳後聲稱非本人操作，系統因缺乏數位簽章無法於法律上佐證。", defense: "交易操作導入 PKI 數位簽章與時間戳記驗證機制。" },
+      { id: "t3_6", icon: "📜", name: "6. Audit Trail (稽核軌跡)", meaning: "保存完整且防竄改的系統安全日誌 (Audit Logs)，用於調查與監控。", situation: "受駭後欲進行鑑識分析，卻發現日誌檔已被駭客以最高權限清空。", defense: "將 Logs 即時遠端同步至 Write-Once (WORM) 集中化 SIEM 日誌伺服器。" },
+      { id: "t3_7", icon: "🔄", name: "7. Business Continuity (業務持續性)", meaning: "具備容錯、備援與高可用性 (HA) 架構，確保遭遇災害時服務不中斷。", situation: "主資料中心機房因電力故障停機，沒有備援節點導致服務中斷數日。", defense: "建置跨可用區 (Multi-AZ) 主從自動切換與定期災難復原演練 (DR Test)。" },
+      { id: "t3_8", icon: "🔐", name: "8. Encryption (加密技術)", meaning: "靜態資料 (Data at Rest) 與動態資料 (Data in Transit) 之全方位密碼學保護。", situation: "遺失的測試筆記型電腦硬碟被拆解，內部資料未加密而被直接讀取。", defense: "啟用 BitLocker/LUKS 全硬碟加密與金鑰託管機制 (KMS)。" },
+      { id: "t3_9", icon: "🛡️", name: "9. Against Attack (防禦攻擊能力)", meaning: "程式碼邊界具備抵禦 XSS、CSRF、SQLi 等常見 Web 攻擊之強健性。", situation: "未對使用者輸入框進行 HTML Escape，導致跨站腳本攻擊 (XSS) 竊取 Session Cookie。", defense: "使用參數化查詢 (Prepared Statements) 與 CSP 內容安全政策。" },
+      { id: "t3_10", icon: "⚖️", name: "10. Compliance (法規遵循)", meaning: "符合資安法規（GDPR、個資法、PCI-DSS、ISO 27001）之要求。", situation: "未經客戶同意收集敏感個資且缺乏保護，遭主管機關裁罰鉅額罰款。", defense: "導入 Privacy by Design 理念與定期第三方合規性審查。" },
+      { id: "t3_11", icon: "💾", name: "11. Backup (備份機制)", meaning: "落實資料定期備份，確保災難或遭勒索時能完整還原。", situation: "遭遇勒索病毒攻擊，連同連接在同一區域網路的備份磁碟一併遭加密。", defense: "貫徹 3-2-1 備份原則（3份副本、2種不同介面、1份異地/離線冷備份）。" }
+    ];
+
+    const theme4Data = [
+      { id: "t4_1", icon: "⚡", name: "1. 停電與電力異常 (Power Outage)", meaning: "未預期之供電中斷或電壓不穩，導致伺服器硬體損毀與資料寫入中斷。", situation: "電力公司突發跳電，機房 UPS 電池衰退未啟動，資料庫磁區損壞。", defense: "配置雙迴路供電、發電機與定期 UPS 電池放電測試。" },
+      { id: "t4_2", icon: "🕵️", name: "2. 實體設備失竊 (Physical Theft)", meaning: "未授權人員進入機房或辦公區，直接竊取含有機密數據之硬體。", situation: "訪客未經登記進入辦公區，隨手拔走未監控測試伺服器之 SSD 硬碟。", defense: "機房嚴格門禁管制 (Biometrics)、監視器覆蓋與硬體加密。" },
+      { id: "t4_3", icon: "🔥", name: "3. 火災與環境災害 (Fire Hazard)", meaning: "高熱短路引發火災，或傳統洒水系統破壞精密伺服器。", situation: "機房線路過載起火，傳統水霧灑水頭作動導致整排伺服器報廢。", defense: "安裝 FM-200 / Novec 1230 氣體滅火系統與早期煙霧偵測 (VESDA)。" },
+      { id: "t4_4", icon: "🐞", name: "4. 軟體邏輯錯誤 (Software Bug)", meaning: "程式碼撰寫缺陷導致邏輯異常、崩潰或產生安全漏洞。", situation: "整數溢位 (Integer Overflow) 缺陷導致攻擊者能取得記憶體控管權。", defense: "推行單元測試、自動化 Code Review 與 Fuzzing 模糊測試。" },
+      { id: "t4_5", icon: "📤", name: "5. 資料外洩 (Data Leakage)", meaning: "機密敏感資訊不當公開、未授權外傳或員工無意洩漏。", situation: "工程師將包含 API 金鑰與 DB 密碼的程式碼誤上傳至 GitHub 公共倉庫。", defense: "部署 DLP (Data Loss Prevention) 與 Git Secrets 自動稽核掃描。" },
+      { id: "t4_6", icon: "🔓", name: "6. 未修補系統漏洞 (Unpatched Vulnerability)", meaning: "已知漏洞 (CVE) 因維護不及未安裝修補檔，成為駭客破口。", situation: "Log4j 漏洞公布數月後伺服器仍未更新，遭自動化掃描工具直接攻陷。", defense: "建立漏洞管理 SOP，高風險 CVE 於 72 小時內完成修補測試與上線。" },
+      { id: "t4_7", icon: "🎯", name: "7. 駭客進階持續性威脅 (APT Attack)", meaning: "國家級或專業駭客團體發起長期、隱蔽且具特定目的之攻擊。", situation: "APT 組織潛伏於企業內網長達 200 天，持續監控高層郵件並竊取商業機密。", defense: "實施 Threat Hunting 主動威脅獵捕與威脅情資 (CTI) 訂閱。" },
+      { id: "t4_8", icon: "🌐", name: "8. 網路服務中斷 (Network Disruption)", meaning: "電信業者實體光纖遭挖斷或 DNS 路由異常，導致外部連線中斷。", situation: "道路工程挖斷主備用光纖纜線，導致企業對外線上服務癱瘓數小時。", defense: "租用不同電信業者 (ISP) 之實體異程雙幹線備援。" },
+      { id: "t4_9", icon: "🎨", name: "9. 網站首頁篡改 (Web Defacement)", meaning: "攻擊者取得 Web 權限後替換首頁內容為政治標語或宣示頁面。", situation: "政府門戶網站遭駭客改為惡搞圖案，嚴重傷害機關形象與社會信任。", defense: "實施 Web 檔案完整性監控 (WIM) 與自動恢復防篡改機制。" }
+    ];
+
+    // Function to render accordions dynamically with styling
+    function renderAccordionGroup(dataList, containerId, accentColorClass) {
+      const container = document.getElementById(containerId);
+      container.innerHTML = '';
+
+      dataList.forEach(item => {
+        const accordionHtml = `
+          <div class="hud-border bg-slate-900/80 border border-slate-800 rounded-2xl overflow-hidden hover:border-pink-500/40 transition-all shadow-md">
+            <button onclick="toggleAccordion('${item.id}')" class="w-full px-6 py-4 flex items-center justify-between text-left font-bold text-slate-100 hover:bg-slate-800/50 transition-colors">
+              <div class="flex items-center gap-3 text-base md:text-lg">
+                <span class="text-2xl">${item.icon}</span>
+                <span class="${accentColorClass}">${item.name}</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="text-xs px-2.5 py-1 rounded-full bg-pink-950/60 text-pink-300 border border-pink-500/30 font-mono">點擊檢視分析</span>
+                <i id="icon-${item.id}" class="fa-solid fa-chevron-down text-pink-400 transition-transform duration-300"></i>
+              </div>
+            </button>
+            <div id="content-${item.id}" class="accordion-content bg-slate-950/50 border-t border-slate-800/80">
+              <div class="p-6 space-y-4 text-sm leading-relaxed">
+                <div>
+                  <span class="inline-block px-2.5 py-0.5 rounded bg-cyan-950 border border-cyan-800 text-cyan-300 font-bold text-xs mb-1.5">
+                    💡 深度涵義解析
+                  </span>
+                  <p class="text-slate-300">${item.meaning}</p>
+                </div>
+                <div>
+                  <span class="inline-block px-2.5 py-0.5 rounded bg-rose-950 border border-rose-800 text-rose-300 font-bold text-xs mb-1.5">
+                    ⚠️ 潛在可能狀況與情境分析
+                  </span>
+                  <p class="text-slate-300">${item.situation}</p>
+                </div>
+                <div>
+                  <span class="inline-block px-2.5 py-0.5 rounded bg-emerald-950 border border-emerald-800 text-emerald-300 font-bold text-xs mb-1.5">
+                    🎀 女僕戰術指揮部對策
+                  </span>
+                  <p class="text-emerald-200/90 font-mono">${item.defense}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+        container.innerHTML += accordionHtml;
+      });
+    }
+
+    // Toggle Accordion State
+    function toggleAccordion(id) {
+      const content = document.getElementById(`content-${id}`);
+      const icon = document.getElementById(`icon-${id}`);
+
+      if (content.style.maxHeight && content.style.maxHeight !== '0px') {
+        content.style.maxHeight = '0px';
+        icon.style.transform = 'rotate(0deg)';
+      } else {
+        content.style.maxHeight = content.scrollHeight + 'px';
+        icon.style.transform = 'rotate(180deg)';
+      }
+    }
+
+    // Tab Switching Logic
+    function switchTab(tabId) {
+      // Hide all pages
+      document.querySelectorAll('.page-content').forEach(p => p.classList.add('hidden'));
+      // Remove active states from nav buttons
+      document.querySelectorAll('.nav-btn').forEach(b => {
+        b.classList.remove('bg-pink-500/20', 'border-pink-500/40', 'text-pink-300', 'shadow-lg');
+        b.classList.add('text-slate-400', 'border-transparent');
+      });
+
+      // Show targeted page
+      document.getElementById(`page-${tabId}`).classList.remove('hidden');
+      
+      // Highlight active nav button
+      const activeBtn = document.getElementById(`nav-${tabId}`);
+      activeBtn.classList.add('bg-pink-500/20', 'border-pink-500/40', 'text-pink-300', 'shadow-lg');
+      activeBtn.classList.remove('text-slate-400', 'border-transparent');
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Interactive Button 1: Laser Attack FX
+    function triggerLaserBeam() {
+      const svg = document.getElementById('maid-kju-svg');
+      const consoleLog = document.getElementById('action-console');
+      const dialogue = document.getElementById('leader-dialogue');
+
+      svg.classList.add('laser-active');
+      dialogue.innerText = "「萌化激光全頻段發射喵——！(ｏﾟ皿ﾟ)o 任何木馬和駭客封包都會被本女僕元首變成粉紅泡泡！」";
+      consoleLog.innerHTML = `<span class="text-rose-400 font-bold">[ATTACK FIRED]: 萌化光束已擊滅 9999+ 個惡意攻擊封包！</span><span class="text-pink-400 font-bold">萌度: 1000%</span>`;
+
+      setTimeout(() => {
+        svg.classList.remove('laser-active');
+      }, 1200);
+    }
+
+    // Interactive Button 2: Report Dialog
+    function triggerReportDialog() {
+      const dialogue = document.getElementById('leader-dialogue');
+      const consoleLog = document.getElementById('action-console');
+
+      const dialogues = [
+        "「主人，今日資安戰報：系統阻擋了 100% 的入侵！請頒發萌萌獎勵給本元首喵～(๑•̀ㅁ•́ฅ)」",
+        "「回報主人！剛才掃描到一個釣魚郵件，已被萌萌女僕親衛隊拍飛了喵！」",
+        "「報告主人！網路邊界非常安全，隨時準備好為主人提供最硬核的萌萌防禦！」"
+      ];
+
+      const randomText = dialogues[Math.floor(Math.random() * dialogues.length)];
+      dialogue.innerText = randomText;
+      consoleLog.innerHTML = `<span class="text-emerald-400 font-bold">[REPORT GENERATED]: 戰術防務報告呈遞完成！</span><span class="text-pink-300">零漏洞運行中</span>`;
+    }
+
+    // Initialize Accordions on Page Load
+    window.onload = function() {
+      renderAccordionGroup(theme1Data, 'container-theme1', 'text-pink-300');
+      renderAccordionGroup(theme2Data, 'container-theme2', 'text-amber-300');
+      renderAccordionGroup(theme3Data, 'container-theme3', 'text-cyan-300');
+      renderAccordionGroup(theme4Data, 'container-theme4', 'text-emerald-300');
+    };
+  </script>
+</body>
+</html>
